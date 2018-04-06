@@ -1,4 +1,4 @@
-<body>
+<div id="PrivilegeProf">
     <title>Assigner les privilèges d'accès au professeur</title>
 
 <table>
@@ -29,4 +29,4 @@
 </table>
 <input type="submit" value="Enregistrement">
 <input type="submit" value="Retour">
-</body>
+</div>
