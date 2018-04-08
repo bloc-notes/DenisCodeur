@@ -1,0 +1,143 @@
+BODY { font-family:arial;}
+TABLE { border-collapse: collapse; }
+TD { border:solid 1px black; padding:5px; }
+DIV, section {margin-top: 100px; margin-bottom: 150px;}
+
+.sTitreApplication { font-size:32px; line-height:26px; font-weight:bold; margin-top:0px; }
+.sTitreSection { font-size:24px; line-height:18px; font-weight:bold; }
+
+.sDroite { text-align:right; }
+.sDroits { font-size:12px; }
+
+.sFondBleu { background-color:blue; color:white; }
+.sFondVert { background-color:lightgreen; }
+.sGras { font-weight:bold; }
+.sNonSouligne { text-decoration:none; }
+.sPaiement { color:blue; width:80px; font-weight:bold; text-align:right; vertical-align:middle; height:15px; padding:1px; }
+.sRouge { color:red; }
+.sSansStyle { border:none; background-color:white; }
+
+.sMenu {
+list-style-type: none;
+}
+.sOption {
+display: inline;
+padding: 2em;
+}
+
+.sMenuGauche {
+overflow: hidden;
+position: fixed;
+background: #212633;
+}
+
+.sCentre {
+    text-align: center;
+}
+
+.sEntete {
+width: 100%;
+position:fixed;
+top:0;
+left: 0;
+font-weight: bold;
+overflow: no-display;
+z-index: 5;
+background-color: #32a095;
+border-top: 15px solid transparent;
+border-left: 15px solid transparent;
+}
+
+.sCentre22 {
+justify-content: space-between;
+box-sizing: border-box;
+width: 100%;
+padding-left: 450px;
+}
+
+
+/* mouse over link */
+a:hover {
+    color: green;
+}
+
+/* ballise <a> sans lien*/
+a:not([href]) {
+    color: blue;
+    text-decoration: underline;
+    cursor: pointer;
+}
+
+a:not([href]):hover {
+    color: green;
+}
+
+
+.sPiedPage {
+width: 100%;
+position:fixed;
+bottom:0;
+left: 0;
+font-family: Larsseit, Arial, sans-serif;
+font-weight: bold;
+border-top: 5px solid #1b2830;
+}
+
+footer a:link {
+    color: #f1f1e7;
+}
+
+footer a:visited {
+    color: #f1f1e7;
+}
+
+footer a:hover {
+    color: #1b2830;
+}
+
+
+/* selected link */
+footer a:active {
+    color: purple;
+}
+
+.sContenuDroite {
+position: fixed;
+right: 2em;
+}
+
+.sEspaceLien {
+    display: inline;
+    padding-right: 2em;
+}
+
+.sGris {
+    background: #1b2830;
+}
+
+.sTurquoise {
+    background: #32a095;
+}
+
+.sBeigeFont {
+    background: #f1f1e7;
+}
+
+.sBeigePolice {
+    color: #f1f1e7;
+}
+
+.sPolice12 {
+    font-size: 12px;
+}
+
+.sPolice15 {
+    font-size: 15px;
+}
+
+.sBordure8 {
+    border-left : 15px solid transparent;
+    border-bottom: 8px solid transparent;
+    border-top: 1px solid transparent;
+    
+}
