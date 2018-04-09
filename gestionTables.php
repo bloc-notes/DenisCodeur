@@ -110,7 +110,7 @@ $strMonIP = "";
        
        $strVerdict = "Création de la table <span class=\"sGras\">'".$strTable."'</span> " . ($BDProjetFinal->OK ? "confirmée" : "impossible");
        requeteExecutee($i." creeTableNormale()", $BDProjetFinal->requete, $strVerdict);
-       //echo '<br/>';
+       echo ($BDProjetFinal->OK ? "true" : "false");
    }
    
    /*$strDefinitions = "V15,description";
