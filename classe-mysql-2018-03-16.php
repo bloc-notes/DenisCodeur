@@ -25,8 +25,15 @@
           $this->nomBD = $strNomBD;
           $this->nomFichierInfosSensibles = $strNomFichierInfosSensibles;
           
-          $this->connexion();
-          $this->selectionneBD();
+          //$this->connexion();
+          
+          if (!$this->connexion()) {
+              die("<br/><br/><strong>Could not connect to database !!! Please contact your system administrator !!!</strong><br/><br/>");
+          }
+          
+          if (!$this->selectionneBD()) {
+              die("<br/><br/><strong>Could not select database !!! Please contact your system administrator !!!</strong><br/><br/>");
+          }
       }
       /*
       |----------------------------------------------------------------------------------|
@@ -122,6 +129,18 @@
       |----------------------------------------------------------------------------------|
       */
       function deconnexion() {
+          return $this->OK = mysqli_close($this->cBD);
+      }
+      /*
+      |----------------------------------------------------------------------------------|
+      | insereEnregistrement
+      |----------------------------------------------------------------------------------|
+      */
+      function insereDonnees($strNomTable) {
+          if (func_num_args()>2) $this->requete = "insert into ".$strNomTable." (". func_get_arg(1).") values (". func_get_arg(2).")";
+          else $this->requete = "insert into ".$strNomTable." values (". func_get_arg(1).")";
+              
+          return $this->OK = mysqli_query($this->cBD, $this->requete);
       }
       /*
       |----------------------------------------------------------------------------------|
@@ -168,6 +187,21 @@
       }
       /*
       |----------------------------------------------------------------------------------|
+      | supprimeDonnees
+      |----------------------------------------------------------------------------------|
+      */
+      function supprimeDonnees($strNomTable) {
+          if (func_num_args()==1) {
+              $this->requete = "delete from ".$strNomTable;
+              return $this->OK = mysqli_query($this->cBD, $this->requete);
+          }
+          else {
+              $this->requete = "delete from ".$strNomTable." where ".func_get_arg(1);
+              return $this->OK = mysqli_query($this->cBD, $this->requete);
+          }
+      }
+      /*
+      |----------------------------------------------------------------------------------|
       | supprimeEnregistrements
       |----------------------------------------------------------------------------------|
       */
@@ -179,9 +213,17 @@
       |----------------------------------------------------------------------------------|
       */
       function supprimeTable($strNomTable) {
-          $this->requete = "DROP TABLE ".$strNomTable;
-          
-          return $this->OK = mysqli_query($this->cBD, $this->requete);
+          if (func_num_args()==1) {
+              $this->requete = "DROP TABLE ".$strNomTable;
+              return $this->OK = mysqli_query($this->cBD, $this->requete);
+          }
+          else {
+              mysqli_query($this->cBD, "set FOREIGN_KEY_CHECKS = 0; ");
+              for ($i=0; $i<func_num_args(); $i++) {
+                  mysqli_query($this->cBD, "drop table if exists ".func_get_arg($i)."; ");
+              }
+              mysqli_query($this->cBD, "set FOREIGN_KEY_CHECKS = 1; ");
+          }
       }
       /*
       |----------------------------------------------------------------------------------|
