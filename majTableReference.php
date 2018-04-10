@@ -1,5 +1,25 @@
 <?php
 require_once "librairies-communes-2018-03-20-Doyon.php";
+require_once "classe-mysql-2018-03-30-Doyon.php";
+
+//BD
+/* Détermination du fichier "InfosSensibles" à utiliser */
+$strMonIP = "";
+$strIPServeur = "";
+$strNomServeur = "";
+$strInfosSensibles = "";
+detecteServeur($strMonIP, $strIPServeur, $strNomServeur, $strInfosSensibles);
+
+/* --- Initialisation des variables de travail --- */
+$strNomBD = "pjf_microvox";
+$strLocalHost = "localhost";
+
+$strNomTableSession = "session";
+$strNomTableCours = "cours";
+
+$BDProjetMicrovox = new mysql($strNomBD, $strInfosSensibles);
+
+
 
 $strTitreApplication = "Microvox";
 $strNomFichierCSS = "index.css";
@@ -9,6 +29,49 @@ $strNomUtilisateur = "Louis-Marie Brousseau";
 
 require_once "en-tete.php";
 $intEtat = post("hidEtat");
+
+if ($intEtat == null) {
+    echo "testttttttttttttttttttttt";
+    $intEtat = $_SESSION["etat"];
+    if ($intEtat > 10) {
+        
+        switch ($intEtat) {
+            case 11:
+                $strCodeSession = post("ddlPeriodeAnnee") . "-" . gauche(post("ddlAnnee"),4);
+                $strDebutSession = post("dtDebut");
+                $strFinSession = post("dtFin");
+
+                $BDProjetMicrovox->insereEnregistrement($strNomTableSession, $strCodeSession, $strDebutSession, $strFinSession);
+                $intEtat = $_SESSION["etat"] = gauche($intEtat,1);
+                break;
+            case 12:
+                $strCodeSession = post("ddlPeriodeAnnee") . "-" . gauche(post("ddlAnnee"),4);
+                $strDebutSession = post("dtDebut");
+                $strFinSession = post("dtFin");
+                
+                //$BDProjetMicrovox->metAJourEnregistrements($strNomTable, $strListeChangements)
+                
+                break;
+            case 21:
+                $intTypeCours = post("rdTypeCours");
+                $strSigle = ($intTypeCours == 1) ? post("tbSigleCourDebut") . "-" . post("tbSigleCourFin") : "ADM-" . post("ddlSigleAdm");
+                $strNomCours = post("tbNomCour");
+                
+                $BDProjetMicrovox->insereEnregistrement($strNomTableCours, $strSigle, $strNomCours);
+                
+                $intEtat = $_SESSION = gauche($intEtat, 1);
+                break;
+            default :
+                break;
+        }
+    }
+}
+else {
+    $_SESSION["etat"] = $intEtat;
+}
+
+echo $intEtat;
+ 
 $strTypeAction = droite($intEtat, 1) == "1" ? "Ajouter" : (droite($intEtat, 1) == "2" ? "Modifier" : "Retirer");
 
 switch ($intEtat) {
@@ -52,7 +115,7 @@ switch ($intEtat) {
         break;
     case 1:
 ?>
-<section class="sCentre">
+<section class="sCentre sComprime35">
     <header>
         <h2>
             Gestion des sessions d'étude
@@ -62,7 +125,53 @@ switch ($intEtat) {
         <h3>
             Liste des sessions
         </h3>
+<?php
+        $BDProjetMicrovox->selectionneEnregistrements($strNomTableSession);
+        $intNbElement = $BDProjetMicrovox->nbEnregistrements;
         
+        if ($intNbElement == 0) {
+?>
+        <h4 style="color: red">Aucune session dans le système</h4>
+<?php
+        }
+        else {
+?>
+        <table id='table'>
+            <tr>
+                <th>
+                    Session d'étude
+                </th>
+                <th>
+                    Date de début
+                </th>
+                <th>
+                    Date de fin
+                </th>
+            </tr>
+<?php       
+            $tabEnregistrement = $BDProjetMicrovox->listeEnregistrements;
+            while($listeEnregistrement = $tabEnregistrement->fetch_row()) {
+?>
+            <tr onclick="selectionDansTableau(this.rowIndex);">
+                
+<?php
+                for ($i = 0; $i < count($listeEnregistrement); $i++) {
+                             
+?>
+                <td>
+                    <?php echo $listeEnregistrement[$i];?>
+                </td>
+<?php
+                }
+?>
+            </tr>           
+<?php
+            }
+?>
+        </table>
+<?php
+        }
+?>
     </article>
     <footer>
         <button type="button" onclick="soumettrePageEtat(11,'majTableReference.php');">Ajouter</button>
@@ -85,7 +194,50 @@ switch ($intEtat) {
         <h3>
             Liste des cours
         </h3>
+<?php
+        $BDProjetMicrovox->selectionneEnregistrements($strNomTableCours);
+        $intNbElement = $BDProjetMicrovox->nbEnregistrements;
         
+        if ($intNbElement == 0) {
+?>
+        <h4 style="color: red">Aucune cours dans le système</h4>
+<?php
+        }
+        else {
+?>  
+        <table id='table'>
+            <tr>
+                <th>
+                    Sigle du cours
+                </th>
+                <th>
+                    Titre du cours
+                </th>
+            </tr>
+            <?php       
+            $tabEnregistrement = $BDProjetMicrovox->listeEnregistrements;
+            while($listeEnregistrement = $tabEnregistrement->fetch_row()) {
+?>
+            <tr onclick="selectionDansTableau(this.rowIndex);">
+                
+<?php
+                for ($i = 0; $i < count($listeEnregistrement); $i++) {
+                             
+?>
+                <td>
+                    <?php echo $listeEnregistrement[$i];?>
+                </td>
+<?php
+                }
+?>
+            </tr>           
+<?php
+            }
+?>
+        </table>
+<?php
+        }    
+?>        
     </article>
     <footer>
         <button type="button" onclick="soumettrePageEtat(21,'majTableReference.php');">Ajouter</button>
@@ -164,6 +316,19 @@ switch ($intEtat) {
     case 11:
     case 12:
     case 13:
+        $strPeriode = "A";
+        $strAnnee = 2018;
+        $strDebutSession = "2018-01-01";
+        $strFinSession = "2018-01-02";
+        if ($intEtat != 11) {
+            $BDProjetMicrovox->selectionneEnregistrements($strNomTableSession);
+            $strCodeSession = $BDProjetMicrovox->mysqli_result($BDProjetMicrovox->listeEnregistrements, post("hidIdElement") - 1);
+            $strDebutSession = $BDProjetMicrovox->mysqli_result($BDProjetMicrovox->listeEnregistrements, post("hidIdElement") - 1, 1);
+            $strFinSession = $BDProjetMicrovox->mysqli_result($BDProjetMicrovox->listeEnregistrements, post("hidIdElement") - 1 , 2);
+            
+            $strPeriode = gauche($strCodeSession, 1);
+            $strAnnee = droite($strCodeSession, 4);
+        }
 ?>        
 <section class="sCentre sComprime35">
     <header>
@@ -183,7 +348,7 @@ switch ($intEtat) {
         </p>
         <p class="sTextGauche">
             <label for='ddlAnnee'>Année de la session</label>
-            <select id="ddlAnnee" name="ddlAnnee">
+            <select id="ddlAnnee" name="ddlAnnee" onchange="debutFinSession();">
                 <option value="2018">2018</option>
                 <option value="2019">2019</option>
                 <option value="2020">2020</option>
@@ -192,23 +357,30 @@ switch ($intEtat) {
         </p>
         <p class="sTextGauche">
             <label for="dtDebut">Date de début de la session</label>
-            <input id="dtDebut" name="dtDebut" type="date" min="2018-01-01" max="2021-12-31"/>
+            <input id="dtDebut" name="dtDebut" type="date" min="2018-01-01" max="2018-12-31" value="<?php echo $strDebutSession;?>"/>
         </p>
         <p class="sTextGauche">
             <label for="dtFin">Date de fin de la session</label>
-            <input id="dtFin" name="dtfin" type="date" min="2018-01-01" max="2021-12-31"/>
+            <input id="dtFin" name="dtFin" type="date" min="2018-01-01" max="2018-12-31" value="<?php echo $strFinSession;?>"/>
         </p>
     </article>
     <footer>
-        <button type="button" onclick="soumettrePageEtat(1,'majTableReference.php');"><?php echo $intEtat != 13 ? "Soumettre" : "Retirer";?></button>
+        <button type="button" onclick="document.getElementById('frmSaisie').submit();"><?php echo $intEtat != 13 ? "Soumettre" : "Retirer";?></button>
         <button type="button" onclick="soumettrePageEtat(1,'majTableReference.php');">Annuler</button>
     </footer>
-</section>   
+</section>
+<script type="text/javascript">
+    document.getElementById('ddlPeriodeAnnee').value ='<?php echo $strPeriode;?>';
+    document.getElementById('ddlAnnee').value = '<?php echo $strAnnee;?>';
+</script>
 <?php
         break;
     case 21:
     case 22:
     case 23:
+        $BDProjetMicrovox->selectionneEnregistrements($strNomTableSession);
+        $tabSession = $BDProjetMicrovox->listeEnregistrements;
+        $intNbSession = $BDProjetMicrovox->nbEnregistrements;
 ?>
 <section class="sCentre sComprime30">
     <header>
@@ -220,17 +392,24 @@ switch ($intEtat) {
         </h4>
         <p class="sTextGauche">
             <label for="rdTypeCoursStan">Cours standard</label>
-            <input id="rdTypeCoursStan" name="rdTypeCours" type="radio" checked onchange="typeCours();"/>
-            <input id="tbSigleCourDebut" name="tbSigleCourDebut" type="text" max="3"/>
+            <input id="rdTypeCoursStan" name="rdTypeCours" type="radio" checked onchange="typeCours();" value="1"/>
+            <input id="tbSigleCourDebut" name="tbSigleCourDebut" type="text" maxlength="3" style="width: 40px;"/>
             <label for='tbSigleCourDebut'>-</label>
-            <input id="tbSigleCourFin" name="tbSigleCourFin" type="text" max="3"/>
+            <input id="tbSigleCourFin" name="tbSigleCourFin" type="text" maxlength="3" style="width: 40px;"/>
         </p>
         <p class="sTextGauche">
             <label for="rdTypeCoursAdm">Cours administration</label>
-            <input id="rdTypeCoursAdm" name="rdTypeCours" type="radio" onchange="typeCours();"/>
+            <input id="rdTypeCoursAdm" name="rdTypeCours" type="radio" onchange="typeCours();" value="2"/>
             <label for="ddlSigleAdm">ADM-</label>
             <select id="ddlSigleAdm" name="ddlSigleAdm">
-                <option value="H18">H18</option>
+<?php
+        for ($i =0; $i < $intNbSession; $i++) {
+            $strSession = $BDProjetMicrovox->mysqli_result($tabSession, $i, 0);
+            $strCodeSession = gauche($strSession,2) . droite($strSession, 2);
+            echo "<option value=\"" . $strCodeSession . "\">" . $strCodeSession . "</option>";
+        }
+?>
+                <option value="H40">H40</option>
             </select>
         </p>
         <h4>
@@ -238,11 +417,11 @@ switch ($intEtat) {
         </h4>
         <p class="sTextGauche">
             <label for="tbNomCour">Nom du cours</label>
-            <input id="tbNomCour" name="tbNomCour" type="text" max="50"/>
+            <input id="tbNomCour" name="tbNomCour" type="text" maxlength="50" style="width: 300px;"/>
         </p>
     </article>
     <footer>
-        <button type="button" onclick="soumettrePageEtat(2,'majTableReference.php');"><?php echo $intEtat != 23 ? "Soumettre" : "Retirer";?></button>
+        <button type="button" onclick="document.getElementById('frmSaisie').submit();"><?php echo $intEtat != 23 ? "Soumettre" : "Retirer";?></button>
         <button type="button" onclick="soumettrePageEtat(2,'majTableReference.php');">Annuler</button>
     </footer>
 </section>
@@ -364,4 +543,29 @@ require_once "pied-page.php";
             document.getElementById('ddlSigleAdm').disabled = false;
         }
     }
+    
+    function debutFinSession() {
+        var intAnnee = document.getElementById('ddlAnnee').value;
+        var dtCommencement = document.getElementById('dtDebut');
+        var dtFinal = document.getElementById('dtFin');       
+        
+        dtCommencement.min = intAnnee + '-01-01';
+        dtCommencement.max = intAnnee + '-12-30';
+        dtCommencement.value = intAnnee + dtCommencement.value.substring(4);
+         
+        dtFinal.min = intAnnee + '-01-02';
+        dtFinal.max = intAnnee + '-12-31';
+        dtFinal.value = intAnnee + dtFinal.value.substring(4);
+    }
+    
+    function selectionDansTableau(intLigne) {
+        console.log(intLigne);
+        
+        document.getElementById('table').rows[intAncienneColonneSelectionne].style = "background-color : #f1f1e7";
+        document.getElementById('table').rows[intLigne].style = "background-color : white";
+        
+        intAncienneColonneSelectionne = intLigne;
+    }
+    
+    
 </script>

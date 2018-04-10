@@ -21,6 +21,7 @@
     </form>
     <form id="frmEtat" method="POST">
         <input id="hidEtat" name="hidEtat" type="hidden" />
+        <input id='hidIdElement' name ='hidIdElement' type="hidden" />
     </form>
 </body>
 </html>

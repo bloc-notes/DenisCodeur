@@ -5,6 +5,7 @@
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <link rel="stylesheet" type="text/css" href="<?php echo $strNomFichierCSS; ?>" />
     <script type="text/javascript">
+        var intAncienneColonneSelectionne = 1;
         function soumettrePage(strNomPage, strNomForm) {
             var frm;
             frm = document.getElementById(strFormulaire);
@@ -14,6 +15,7 @@
         
         function soumettrePageEtat(intEtat,strNomPageDestination) {
             document.getElementById('hidEtat').value = intEtat;
+            document.getElementById('hidIdElement').value = intAncienneColonneSelectionne;
             var frm;
             frm = document.getElementById('frmEtat');
             frm.action = strNomPageDestination;

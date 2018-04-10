@@ -1,5 +1,8 @@
 BODY { font-family:arial;}
-TABLE { border-collapse: collapse; }
+TABLE { 
+    border-collapse: collapse;
+    display: inline-block;
+}
 TD { border:solid 1px black; padding:5px; }
 DIV, section {margin-top: 100px; margin-bottom: 150px;}
 

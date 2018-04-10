@@ -7,6 +7,8 @@ $strModeTransmission = "post";
 $strNomUtilisateur = "Louis-Marie Brousseau";
 
 require_once "en-tete.php";
+
+session_destroy();
 ?>
 
 <div>
@@ -58,6 +60,9 @@ require_once "en-tete.php";
             <a href="#">
                 Terminer l'application
             </a>
+            <p>
+                Que dire de plus?
+            </p>
         </li>
         <li class="">
             <a href="#">
