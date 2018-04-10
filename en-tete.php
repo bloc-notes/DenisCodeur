@@ -1,9 +1,10 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title><?php echo $strTitreApplication; ?></title>
+    <title>Microvox</title>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-    <link rel="stylesheet" type="text/css" href="<?php echo $strNomFichierCSS; ?>" />
+    <link rel="stylesheet" type="text/css" href="index.css" />
+    <link rel="stylesheet" type="text/javascript" href="index.js" />
     <script type="text/javascript">
         function soumettrePage(strNomPage, strNomForm) {
             var frm;
@@ -19,20 +20,21 @@
             frm.action = strNomPageDestination;
             frm.submit();
         }
-        
-        
     </script>
 </head>
-<body class="sBeigeFont">
+<body class="sBeigeFont bodyConnexion">
     <form id="frmSaisie" method="<?php echo $strModeTransmission;?>" action="">
         <header id="divEntete" class="sEntete">
             <p class="sTitreApplication sBeigePolice">
-                <?php echo "$strTitreApplication\n"; ?>
+                Microvox
                 <span class="sContenuDroite sPolice15">
-                    <label style="margin-right: 10px;">Bienvenue <?php echo $strNomUtilisateur;?></label>
-                    <a id="aDeco" href="menu.php">Déconnexion</a>
+                    <label style="margin-right: 10px;"><?php echo $strNomUtilisateur;?></label>
+                    <a id="aDeco" href="connexion.php">Déconnexion</a>
                 </span>  
             </p>
         </header>
 <?php
 session_start();
+
+require_once 'classe-mysql-2018-03-16.php';
+require_once 'librairies-communes-2018-03-16.php';

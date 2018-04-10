@@ -1,8 +1,5 @@
 <?php
 
-require_once 'classe-mysql-2018-03-16.php';
-require_once 'librairies-communes-2018-03-20-Doyon.php';
-
 $strMonIP = "";
 $strIPServeur = "";
 $strNomServeur = "";
@@ -29,7 +26,7 @@ $BDProjetFinal->supprimeTable($strTableUtilisateur, $strTableCours, $strTableCat
 
 //table Utilisateur
 $strContenuUtilisateur = "nomUtil varchar(25), " //PK_nomUtil
-        . "motPasse varchar(15) not null, "
+        . "pass varchar(15) not null, "
         . "statutAdmin bit not null, "
         . "nomComplet varchar(30) not null, "
         . "courriel varchar(50) not null";
@@ -91,5 +88,12 @@ $BDProjetFinal->insereDonnees($strTableUtilisateur, $strValuesNomUtil); //insert
 
 /*$strRequeteUtilisateur = "nomUtil='admin'";
 $BDProjetFinal->supprimeDonnees($strTableUtilisateur);*/
+
+/*$strU = "";
+$strP = "";
+list($strU, $strP, $strNC) = explode(",", $BDProjetFinal->retourneSelect($strTableUtilisateur, "nomUtil, pass, nomComplet"));
+echo $strU." user, ".$strP." pass, ".$strNC;
+$strVerdict = "Select de la table <span class=\"sGras\">'".$strTableUtilisateur."'</span> " . ($BDProjetFinal->OK ? "confirmée" : "impossible");
+requeteExecutee("retourneSelect()", $BDProjetFinal->requete, $strVerdict);*/
 
 $BDProjetFinal->deconnexion(); //deconnexion de la BD

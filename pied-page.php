@@ -15,7 +15,7 @@
                 </li>  
             </nav>
             <p class="sPolice12" style="border-left:15px solid transparent;">
-                &copy; Marc-Antoine Lussier_Mohamed Hassan Guelleh_Philippe Doyon
+                &copy; Marc-Antoine Lussier, Mohamed H. Guelleh, Philippe Doyon
             </p>
         </footer>
     </form>

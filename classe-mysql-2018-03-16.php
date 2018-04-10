@@ -179,6 +179,37 @@
       }
       /*
       |----------------------------------------------------------------------------------|
+      | retourneQuery()
+      |----------------------------------------------------------------------------------|
+      */
+      function retourneSelect($strNomTable, $strDonnees) {
+          $arrDonnees = explode(",", str_replace(" ", "", $strDonnees));
+          $this->requete = "select ".$strDonnees." from ".$strNomTable;
+          $this->OK = mysqli_query($this->cBD, $this->requete);
+          
+          if (mysqli_num_rows($this->OK)>0) {
+              while($row = mysqli_fetch_assoc($this->OK)) {
+                  if (func_num_args()>2) {
+                      /*for ($i=0; $i<count($arrDonnees); $i++) { //////////////// marche pas a cause du func_get_arg(i)=...
+                          func_get_arg($i) = $row[$arrDonnees[$i]];
+                      }*/
+                  }
+                  else {
+                    $strResultat = "";
+                    for ($i=0; $i<count($arrDonnees); $i++) {
+                        $strResultat .= $row[$arrDonnees[$i]].",";
+                    }
+                    return substr($strResultat, 0, -1);
+                    //echo "id: " . $row["id"]. " - Name: " . $row["firstname"]. " " . $row["lastname"]. "<br>";
+                  }
+              }
+          }
+          else {
+              echo "0 resultats";
+          }
+      }
+      /*
+      |----------------------------------------------------------------------------------|
       | selectionneBD()
       |----------------------------------------------------------------------------------|
       */
