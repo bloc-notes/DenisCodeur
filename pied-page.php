@@ -1,6 +1,6 @@
         <footer id="divPiedPage" class="sGris sBeigePolice sPiedPage">
             <nav class="sMenu sTurquoise sBordure8">
-                <h2>Lien utile</h2>
+                <h2>Liens utiles</h2>
                 <li class="sEspaceLien">
                     <a href="https://login.microsoftonline.com">Courriel</a>
                 </li>

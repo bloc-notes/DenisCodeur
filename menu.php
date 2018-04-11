@@ -1,14 +1,11 @@
 <?php
-
-$strTitreApplication = "Microvox";
-$strNomFichierCSS = "index.css";
-$strModeTransmission = "post";
-
 $strNomUtilisateur = "Louis-Marie Brousseau";
 
 require_once "en-tete.php";
 
 session_destroy();
+
+$_SESSION["pageAvant"] = "menu.php";
 ?>
 
 <div>
@@ -25,7 +22,7 @@ session_destroy();
             </p>
         </li>
         <li class="">
-            <a onclick="soumettrePageEtat(0,'majTableReference.php');">
+            <a onclick="soumettrePageEtat(0,'option2.php');">
                 Mettre à jour les tables de référence
             </a>
             <p>
@@ -63,191 +60,6 @@ session_destroy();
             <p>
                 Que dire de plus?
             </p>
-        </li>
-        <li class="">
-            <a href="#">
-                Terminer l'application
-            </a>
-        </li>
-        <li class="">
-            <a href="#">
-                Terminer l'application
-            </a>
-        </li>
-        <li class="">
-            <a href="#">
-                Terminer l'application
-            </a>
-        </li>
-        <li class="">
-            <a href="#">
-                Terminer l'application
-            </a>
-        </li>
-        <li class="">
-            <a href="#">
-                Terminer l'application
-            </a>
-        </li>
-        <li class="">
-            <a href="#">
-                Terminer l'application
-            </a>
-        </li>
-        <li class="">
-            <a href="#">
-                Terminer l'application
-            </a>
-        </li>
-        <li class="">
-            <a href="#">
-                Terminer l'application
-            </a>
-        </li>
-        <li class="">
-            <a href="#">
-                Terminer l'application
-            </a>
-        </li>
-        <li class="">
-            <a href="#">
-                Terminer l'application
-            </a>
-        </li>
-        <li class="">
-            <a href="#">
-                Terminer l'application
-            </a>
-        </li>
-        <li class="">
-            <a href="#">
-                Terminer l'application
-            </a>
-        </li>
-        <li class="">
-            <a href="#">
-                Terminer l'application
-            </a>
-        </li>
-        <li class="">
-            <a href="#">
-                Terminer l'application
-            </a>
-        </li>
-        <li class="">
-            <a href="#">
-                Terminer l'application
-            </a>
-        </li>
-        <li class="">
-            <a href="#">
-                Terminer l'application
-            </a>
-        </li>
-        <li class="">
-            <a href="#">
-                Terminer l'application
-            </a>
-        </li>
-        <li class="">
-            <a href="#">
-                Terminer l'application
-            </a>
-        </li>
-        <li class="">
-            <a href="#">
-                Terminer l'application
-            </a>
-        </li>
-        <li class="">
-            <a href="#">
-                Terminer l'application
-            </a>
-        </li>
-        <li class="">
-            <a href="#">
-                Terminer l'application
-            </a>
-        </li>
-        <li class="">
-            <a href="#">
-                Terminer l'application
-            </a>
-        </li>
-        <li class="">
-            <a href="#">
-                Terminer l'application
-            </a>
-        </li>
-        <li class="">
-            <a href="#">
-                Terminer l'application
-            </a>
-        </li>
-        <li class="">
-            <a href="#">
-                Terminer l'application
-            </a>
-        </li>
-        <li class="">
-            <a href="#">
-                Terminer l'application
-            </a>
-        </li>
-        <li class="">
-            <a href="#">
-                Terminer l'application
-            </a>
-        </li>
-        <li class="">
-            <a href="#">
-                Terminer l'application
-            </a>
-        </li>
-        <li class="">
-            <a href="#">
-                Terminer l'application
-            </a>
-        </li>
-        <li class="">
-            <a href="#">
-                Terminer l'application
-            </a>
-        </li>
-        <li class="">
-            <a href="#">
-                Terminer l'application
-            </a>
-        </li>
-        <li class="">
-            <a href="#">
-                Terminer l'application
-            </a>
-        </li>
-        <li class="">
-            <a href="#">
-                Terminer l'application
-            </a>
-        </li>
-        <li class="">
-            <a href="#">
-                Terminer l'application
-            </a>
-        </li>
-        <li class="">
-            <a href="#">
-                Terminer l'application
-            </a>
-        </li>
-        <li class="">
-            <a href="#">
-                Terminer l'application
-            </a>
-        </li>
-        <li class="">
-            <a href="#">
-                Terminer l'application
-            </a>
         </li>
     </ul>
 </div>

@@ -495,8 +495,8 @@
                 $strRequete .= " WHERE " . $strListeConditions;
 
             }
-
-            $this->requete  =$strRequete;
+            echo $strRequete;
+            $this->requete = $strRequete;
             $this->OK= mysqli_query($this->cBD, $this->requete);
 
             return $this->OK;
@@ -537,6 +537,7 @@
                     $strRequete .= substr(func_get_arg($intIndex), 2);
                 }
             }
+            echo $strRequete;
             $this->requete = $strRequete;
 
             $this->listeEnregistrements = mysqli_query($this->cBD, $this->requete);
