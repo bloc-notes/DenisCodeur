@@ -70,15 +70,13 @@ function triTable(n) {
       }
     }
     if (shouldSwitch) {
-      /*If a switch has been marked, make the switch
-      and mark that a switch has been done:*/
+      /*Si switch est marqué*/
       rangees[i].parentNode.insertBefore(rangees[i + 1], rangees[i]);
       switching = true;
-      //Each time a switch is done, increase this count by 1:
+      //À chaque switch:
       switchcount ++;      
     } else {
-      /*If no switching has been done AND the direction is "asc",
-      set the direction to "desc" and run the while loop again.*/
+      /*Changer direction.*/
       if (switchcount == 0 && dir == "asc") {
         dir = "desc";
         switching = true;
