@@ -1,18 +1,9 @@
 <?php
 
-/* 
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
+session_start();
+$strNomUtilisateur = $_SESSION["nomComplet"];
 
-$arrayDonnees1 = array(1,"H-2017","420-3B4");
-$arrayDonnees = null;
-$intDocsEffaces=0;
-$binSuppression=false;
-
-
-
+require_once "en-tete.php";
 
 ?>
 
@@ -173,3 +164,5 @@ function triTable(n) {
     div1.style.display = 'none';
     document.getElementById("Resultats").style.display = 'none';
     </script>
+<?php
+require_once "pied-page.php";
