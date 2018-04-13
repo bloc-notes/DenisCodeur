@@ -1,5 +1,6 @@
 <?php
-$strNomUtilisateur = "Louis-Marie Brousseau";
+session_start();
+$strNomUtilisateur = $_SESSION["nomComplet"];
 
 require_once "en-tete.php";
 
