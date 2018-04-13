@@ -30,7 +30,7 @@ $_SESSION["pageAvant"] = "menu.php";
             </p>
         </li>
         <li class="">
-            <a href="#">
+            <a onclick="window.location.href = 'option3.php'">
                 Assigner les privilèges d'accès aux documents
             </a>
             <p>
@@ -38,7 +38,7 @@ $_SESSION["pageAvant"] = "menu.php";
             </p>
         </li>
         <li class="">
-            <a href="#">
+            <a onclick="window.location.href = 'option4.php'">
                 Assigner un groupe d'utillisateur à un cours-session
             </a>
             <p>
