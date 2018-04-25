@@ -1,5 +1,6 @@
 <?php
-$strNomUtilisateur = "Louis-Marie Brousseau";
+session_start();
+$strNomUtilisateur = $_SESSION["nomComplet"];
 
 require_once "en-tete.php";
 
@@ -281,17 +282,17 @@ require_once "en-tete.php";
         document.getElementById('tabCacher').classList.remove('sCacher');
         document.getElementById('piedPageCacher').classList.remove('sCacher');
         
-        erreur();
+        erreur2();
     }
     
     function listeSessionEvenement() {
         document.getElementById('tdErreurSession').classList.add('sErreurTableau');
         
-        erreur();
+        erreur2();
     }
     
     //https://stackoverflow.com/questions/14226803/javascript-wait-5-seconds-before-executing-next-line
-    const attendre = (ms) => {
+    const attendre2 = (ms) => {
         return new Promise((tente) => {
             setTimeout(tente, ms);
         });
@@ -302,8 +303,8 @@ require_once "en-tete.php";
         window.location.href = "option3.php";
     }
     
-    async function erreur() {
-        await attendre(1000);
+    async function erreur2() {
+        await attendre2(1000);
         alert('Une erreur est détecté. Vous pouvez [1] corriger les données dans le fichier excel, [2] saisir une nouvelle session et/ou [3] définir un nouveau cours-session.');
     }
 </script>

@@ -231,7 +231,7 @@
             }
 
             $strCommande .= ")";
-
+            echo $strCommande;
             $this->requete = $strCommande;
             $this->OK = mysqli_query($this->cBD, $this->requete);
 
@@ -537,7 +537,6 @@
                     $strRequete .= substr(func_get_arg($intIndex), 2);
                 }
             }
-            echo $strRequete;
             $this->requete = $strRequete;
 
             $this->listeEnregistrements = mysqli_query($this->cBD, $this->requete);

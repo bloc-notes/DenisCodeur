@@ -4,15 +4,14 @@ $strNomUtilisateur = $_SESSION["nomComplet"];
 
 require_once "en-tete.php";
 
-?>
-<script language="JavaScript">
-function cochetout(source,string) {
-  cases = document.getElementsByName(string);
-  for(var i=0, n=cases.length;i<n;i++) {
-    cases[i].checked = source.checked;
-  }
+$strBtnRetour = "btnRetour";
+
+if (isset($_POST[$strBtnRetour])) {
+    header("Location: menuAdmin.php");
+    exit();
 }
-</script>
+?>
+
 <section id="PrivilegeProf" class="sCentre sComprime35">
     <header>
         <h1>Assigner les privilèges d'accès au professeur</h1>
@@ -21,10 +20,9 @@ function cochetout(source,string) {
         <table>
         <tr>
         <th>Nom d'utilisateur /Cours session</th>
-        <th>A-2017 <input type="checkbox" onClick="cochetout(this,'cb1')" /></th>
-        <th>H-2018 <input type="checkbox" onClick="cochetout(this,'cb2')" /></th>
-        <th>A-2018 <input type="checkbox" onClick="cochetout(this,'cb3')" /></th>
-        
+        <th>A-2017</th>
+        <th>H-2018</th>
+        <th>A-2018</th>
         </tr>
         <tr>
         <td class="sTextGauche">Lussier, Marc-Antoine</td>
@@ -48,7 +46,7 @@ function cochetout(source,string) {
     </article>
     <footer>
         <button type="submit" value="Enregistrement">Enregistrement</button>
-        <button type="submit" onclick="window.location.href = 'menu.php'"">Retour</button>
+        <button id="<?php echo $strBtnRetour; ?>" type="submit" name="<?php echo $strBtnRetour; ?>">Retour</button>
     </footer>
 </section>
 

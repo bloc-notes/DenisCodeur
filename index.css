@@ -153,6 +153,15 @@ right: 2em;
     padding: 1%;
 }
 
+.sComprime12 {
+    margin-top: 5%;
+    margin-left: 12%;
+    margin-right: 12%;
+    border: 3px solid #1b2830;
+    border-radius: 25%;
+    padding: 1%;
+}
+
 .sComprime30 {
     margin-top: 10%;
     margin-left: 30%;
@@ -208,4 +217,138 @@ button {
 
 .sDeCacherTableau {
     display: table-row;
+}
+
+/*Nouveau truc pour login par Mohamed H. Guelleh*/
+/*CSS Reset*/
+::placeholder { 
+    color: black;
+}
+button.btnConnexion,
+fieldset.fieldsetConnexion,
+input.inputConnexion,
+textarea.textareaConnexion {
+  margin: 0;
+  padding: 0;
+  outline: 0;
+  border: 0;
+  background: transparent;
+  vertical-align: baseline;
+  font-size: 100%;
+}
+:focus {
+  outline: 0;
+}
+h1.h1Connexion {
+    font-weight: normal;
+}
+html {
+  background-color: #3a3a3a;
+}
+body.bodyConnexion {
+  min-height: 100%;
+  height: 100%;
+  font-weight: lighter;
+  font-family: "HelveticaNeue-Light",
+    "Helvetica Neue Light",
+    "Helvetica Neue",
+    Helvetica,
+    Arial,
+    "Lucida Grande",
+    sans-serif;
+  -webkit-font-smoothing: subpixel-antialiased;
+}
+#warp {
+  position: relative;
+  margin: 50px auto 0;
+  width: 400px;
+  text-align: center;
+  color: white;
+}
+h1.h1Connexion {
+  color: #b6b6b6;
+  font-weight: bolder;
+  font-size: 60px;
+}
+.admin {
+  height: 285px;
+  float: left;
+  width: 193px;
+  border-right: 1px solid #333333;
+  text-align: left;
+  left: 0;
+  top: 0;
+  transition: all 200ms ease-in 100ms;
+}
+.cms {
+  height: 278px;
+  top: 70px;
+  left: -62px;
+  float: right;
+  width: 155px;
+  text-align: right;
+  transition: all 200ms ease-in 100ms;
+}
+.admin, .cms {
+  position: relative;
+  display: block;
+  overflow: hidden;
+  transform: rotate(25deg);
+}
+.cms h1.h1Connexion {
+  margin-left: 0px;
+  color: #838385;
+}
+.rota h1.h1Connexion {margin-left: 20px;}
+.roti, .rota {
+  position: relative;
+  display: block;
+  transform: rotate(-25deg);
+}
+.admin:hover h1.h1Connexion, .cms:hover h1.h1Connexion {
+  color: #3591B8;
+}
+.rota {
+  margin-top: 80px;
+  margin-left: 35px;
+}
+.roti {
+  margin-top: 80px;
+  margin-right: 55px;
+}
+input.inputConnexion, button.btnConnexion {
+  margin: 4px;
+  padding: 8px 6px;
+  width: 350px;
+  background: white;
+  color: black;
+  font-size: 12px;
+  transition: all 1s ease-out;
+}
+button.btnConnexion {
+  margin-left: -230px;
+  background: #000;
+  color: white;
+  text-align: right;
+  cursor: pointer;
+  transition: all 1s ease-out;
+}
+button.btnConnexion:hover {
+  background: #3591B8;
+  transition: all 0.3s ease-in;
+}
+input.inputConnexion:hover {
+  box-shadow: inset 0 0 5px rgba(190, 29, 204, 0.6);
+}
+input.inputConnexion:focus {
+  background: gray;
+  color: white;
+}
+.up {
+  top: 100px;
+  left: -60px;
+}
+.down {
+  top: -100px;
+  left: 60px;
 }

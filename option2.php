@@ -1,6 +1,7 @@
 <?php
 require_once "librairies-communes-2018-03-20-Doyon.php";
 require_once "classe-mysql-2018-03-30-Doyon.php";
+session_start();
 
 //BD
 /* Détermination du fichier "InfosSensibles" à utiliser */
@@ -23,7 +24,7 @@ $strNomTableUtilisateur = "utilisateur";
 
 $BDProjetMicrovox = new mysql($strNomBD, $strInfosSensibles);
 
-$strNomUtilisateur = "Louis-Marie Brousseau";
+$strNomUtilisateur = $_SESSION["nomComplet"];
 
 require_once "en-tete.php";
 $intEtat = post("hidEtat");
@@ -48,6 +49,11 @@ if ($intEtat == null) {
                 $BDProjetMicrovox->metAJourEnregistrements($strNomTableSession, "dateDebut='$strDebutSession', dateFin='$strFinSession'", "$strNomTableSession.session='$strCodeSession'");
                 $intEtat = $_SESSION["etat"] = gauche($intEtat,1);
                 break;
+            case 13:
+                $strCodeSession = post("ddlPeriodeAnnee") . "-" . gauche(post("ddlAnnee"),4);
+                
+                $BDProjetMicrovox->supprimeEnregistrements($strNomTableSession, "$strNomTableSession.session='$strCodeSession'");
+                $intEtat = $_SESSION["etat"] = gauche($intEtat, 1);
             case 21:
                 $intTypeCours = post("rdTypeCours");
                 $strSigle = ($intTypeCours == 1) ? post("tbSigleCourDebut") . "-" . post("tbSigleCourFin") : "ADM-" . post("ddlSigleAdm");
@@ -58,22 +64,22 @@ if ($intEtat == null) {
                 $intEtat = $_SESSION["etat"] = gauche($intEtat, 1);
                 break;
             case 22:
-                $intTypeCours = post("rdTypeCours");
-                $strSigle = ($intTypeCours == 1) ? post("tbSigleCourDebut") . "-" . post("tbSigleCourFin") : "ADM-" . post("ddlSigleAdm");
+                $strSigle = (post("tbSigleCourDebut") != "") ? post("tbSigleCourDebut") . "-" . post("tbSigleCourFin") : "ADM-" . post("ddlSigleAdm");
                 $strNomCours = post("tbNomCour");
                 
                 $BDProjetMicrovox->metAJourEnregistrements($strNomTableCours, "titre='$strNomCours'","$strNomTableCours.sigleCours='$strSigle'");
                 
-                $intEtat = $_SESSIO["etat"] = gauche($intEtat, 1);
+                $intEtat = $_SESSION["etat"] = gauche($intEtat, 1);
+                break;
+            case 23:
+                $strSigle = (post("tbSigleCourDebut") != "") ? post("tbSigleCourDebut") . "-" . post("tbSigleCourFin") : "ADM-" . post("ddlSigleAdm");
+                $BDProjetMicrovox->supprimeEnregistrements($strNomTableCours, "$strNomTableCours.sigleCours='$strSigle'");
+                $intEtat = $_SESSION["etat"] = gauche($intEtat, 1);
                 break;
             case 31:
                 $strSession = post("ddlSession");
                 $strSigleCours = post("ddlCours");
                 $strNomProf = post("ddlNomProf");
-                
-                echo "<script>alert('" . $strSession . "');</script>";
-                echo "<script>alert('" . $strSigleCours . "');</script>";
-                echo "<script>alert('" . $strNomProf . "');</script>";
                 
                 $BDProjetMicrovox->insereEnregistrement($strNomTableCoursSession, $strSession, $strSigleCours, $strNomProf);
                 
@@ -82,18 +88,36 @@ if ($intEtat == null) {
             case 33:
                 $strSession = post("ddlSession");
                 $strSigleCours = post("ddlCours");
-                $strNomProf = post("ddlNomProf");
                 
-                //$BDProjetMicrovox->metAJourEnregistrements($strNomTableCoursSession, $strListeChangements)
+                $BDProjetMicrovox->supprimeEnregistrements($strNomTableCoursSession,"$strNomTableCoursSession.sessionCoursSession='$strSession' AND $strNomTableCoursSession.sigleCoursCoursSession='$strSigleCours'");
+                $intEtat = $_SESSION["etat"] = gauche($intEtat, 1);
+                break;
+            case 41:
+                $strNomCategorie = post("tbCategorie");
+                
+                $BDProjetMicrovox->insereEnregistrement($strNomTableCategorie , $strNomCategorie);
+                $intEtat = $_SESSION["etat"] = gauche($intEtat, 1);
+                break;
+            case 42:
+                $strNomCategorie = post("tbCategorie");
+                $strNomCategorieAvant = post('hidCatAvant');
+                $BDProjetMicrovox->metAJourEnregistrements($strNomTableCategorie, "$strNomTableCategorie.cat_nomCategorie='$strNomCategorie'", "$strNomTableCategorie.cat_nomCategorie='$strNomCategorieAvant'");
+                $intEtat = $_SESSION["etat"] = gauche($intEtat, 1);
+                break;
+            case 43:
+                $strNomCategorie = post("tbCategorie");
+                
+                $BDProjetMicrovox->supprimeEnregistrements($strNomTableCategorie, "$strNomTableCategorie.cat_nomCategorie='$strNomCategorie'");
+                $intEtat = $_SESSION["etat"] = gauche($intEtat, 1);
                 break;
             case 51:
                 $strNomUtil = post("tbNomUtil");
                 $strMDP = post("tbMDP");
                 $byteStatut = post("rbStatut");
                 $strNomComplet = post("tbNomComplet");
-                $strAdresseCouriell = post("tbCourriel");
+                $strAdresseCourriel = post("tbCourriel");
                 
-                $BDProjetMicrovox->insereEnregistrement($strNomTableUtilisateur, $strNomUtil, $strMDP, $byteStatut, $strNomComplet, $strAdresseCouriell);
+                $BDProjetMicrovox->insereEnregistrement($strNomTableUtilisateur, $strNomUtil, $strMDP, $byteStatut, $strNomComplet, $strAdresseCourriel);
                 
                 $intEtat = $_SESSION["etat"] = gauche($intEtat, 1);
                 break;
@@ -104,19 +128,27 @@ if ($intEtat == null) {
                 $strNomComplet = post("tbNomComplet");
                 $strAdresseCouriell = post("tbCourriel");
                 
-                $BDProjetMicrovox->metAJourEnregistrements($strNomTableUtilisateur, "pass='$strMDP', statutAdmin='$byteStatut', nomComplet='$strNomComplet', courriel='$strAdresseCouriell'", "$strNomTableUtilisateur.nomUtil='$strNomUtil'");
+                $BDProjetMicrovox->metAJourEnregistrements($strNomTableUtilisateur, "pass='$strMDP', statutAdmin=b'$byteStatut', nomComplet='$strNomComplet', courriel='$strAdresseCouriell'", "$strNomTableUtilisateur.nomUtil='$strNomUtil'");
+                $intEtat = $_SESSION["etat"] = gauche($intEtat, 1);
+                break;
+            case 53:
+                $strNomUtil = post("tbNomUtil");
+                
+                $BDProjetMicrovox->supprimeEnregistrements($strNomTableUtilisateur, "nomUtil='$strNomUtil'");
                 $intEtat = $_SESSION["etat"] = gauche($intEtat, 1);
                 break;
             default :
                 break;
+        }
+
+        if ($BDProjetMicrovox->OK != 1) {
+            echo "<script type=\"text/javascript\">erreur();</script>";
         }
     }
 }
 else {
     $_SESSION["etat"] = $intEtat;
 }
-
-echo $intEtat;
  
 $strTypeAction = droite($intEtat, 1) == "1" ? "Ajouter" : (droite($intEtat, 1) == "2" ? "Modifier" : "Retirer");
 
@@ -126,7 +158,7 @@ switch ($intEtat) {
 
 <div class="sCentre">
     <h1>
-        Options disponibles pour les tables de références
+        Mettre à jour les tables de références
     </h1>
     <ul class="sMenu">
         <li class="sOption">
@@ -328,7 +360,7 @@ switch ($intEtat) {
                     Nom du professeur
                 </th>
             </tr>
-            <?php       
+<?php       
             $tabEnregistrement = $BDProjetMicrovox->listeEnregistrements;
             while($listeEnregistrement = $tabEnregistrement->fetch_row()) {
 ?>
@@ -386,13 +418,7 @@ switch ($intEtat) {
         <table id='table'>
             <tr>
                 <th>
-                    Session
-                </th>
-                <th>
-                    Sigle du cours
-                </th>
-                <th>
-                    Nom du professeur
+                    Nom des catégories
                 </th>
             </tr>
             <?php       
@@ -617,9 +643,9 @@ switch ($intEtat) {
         <p class="sTextGauche">
             <label for="rdTypeCoursStan">Cours standard</label>
             <input id="rdTypeCoursStan" name="rdTypeCours" type="radio" checked onchange="typeCours();" value="1"/>
-            <input id="tbSigleCourDebut" name="tbSigleCourDebut" type="text" maxlength="3" style="width: 40px;" value="<?php echo $strSigleCours1;?>"/>
+            <input id="tbSigleCourDebut" name="tbSigleCourDebut" type="text" pattern=".{3,3}" title="3 à 3 charactères" style="width: 40px;" value="<?php echo $strSigleCours1;?>"/>
             <label for='tbSigleCourDebut'>-</label>
-            <input id="tbSigleCourFin" name="tbSigleCourFin" type="text" maxlength="3" style="width: 40px;" value="<?php echo $strSigleCours2;?>"/>
+            <input id="tbSigleCourFin" name="tbSigleCourFin" type="text" pattern=".{3,3}" title="3 à 3 charactères" style="width: 40px;" value="<?php echo $strSigleCours2;?>"/>
         </p>
         <p class="sTextGauche">
             <label for="rdTypeCoursAdm">Cours administration</label>
@@ -640,7 +666,7 @@ switch ($intEtat) {
         </h4>
         <p class="sTextGauche">
             <label for="tbNomCour">Nom du cours</label>
-            <input id="tbNomCour" name="tbNomCour" type="text" maxlength="50" style="width: 300px;" value="<?php echo $strTitreCours;?>"/>
+            <input id="tbNomCour" name="tbNomCour" type="text" pattern=".{3,50}" title="3 à 50 charactères" style="width: 300px;" value="<?php echo $strTitreCours;?>"/>
         </p>
     </article>
     <footer>
@@ -688,7 +714,7 @@ switch ($intEtat) {
         $strSession = "";
         $strCours = "";
         $strNomUtilisateur = "";
-        if ($intEtat > 32) {
+        if ($intEtat > 31) {
             $BDProjetMicrovox->selectionneEnregistrements($strNomTableCoursSession);
             $strSession = $BDProjetMicrovox->mysqli_result($BDProjetMicrovox->listeEnregistrements, post("hidIdElement") - 1);
             $strCours = $BDProjetMicrovox->mysqli_result($BDProjetMicrovox->listeEnregistrements, post("hidIdElement") - 1, 1);
@@ -706,8 +732,8 @@ switch ($intEtat) {
             <select id="ddlSession" name="ddlSession">
 <?php
         for ($i =0; $i < $intNbSession; $i++) {
-            $strSession = $BDProjetMicrovox->mysqli_result($tabSession, $i, 0);
-            echo "<option value=\"" . $strSession . "\">" . $strSession . "</option>";
+            $strCodeSession = $BDProjetMicrovox->mysqli_result($tabSession, $i, 0);
+            echo "<option value=\"" . $strCodeSession . "\">" . $strCodeSession . "</option>";
         }
 ?>
             </select>
@@ -760,6 +786,13 @@ switch ($intEtat) {
     case 41;
     case 42:
     case 43:
+        $strCategorie="";
+        if ($intEtat > 41) {
+            $BDProjetMicrovox->selectionneEnregistrements($strNomTableCategorie);
+            $strCategorie = $BDProjetMicrovox->mysqli_result($BDProjetMicrovox->listeEnregistrements, post("hidIdElement") - 1);
+        }
+        
+        //ValidityState.tooShort
 ?>
 <section class="sCentre sComprime35">
     <header>
@@ -768,11 +801,12 @@ switch ($intEtat) {
     <article class="sCompact">
         <p class="sTextGauche">
             <span>Nom de la catégorie</span>
-            <input id="tbCategorie" name="tbCategorie" type="text" max="15"/>
+            <input id="tbCategorie" name="tbCategorie" type="text" pattern=".{3,15}" title="3 à 15 charactères" value="<?php echo $strCategorie;?>"/> 
+            <input id="hidCatAvant" name="hidCatAvant" type="hidden" value="<?php echo $strCategorie;?>"/>
         </p>
     </article>
     <footer>
-        <button type="button" onclick="soumettrePageEtat(4,'option2.php');"><?php echo $intEtat != 43 ? "Soumettre" : "Retirer";?></button>
+        <button type="button" onclick="soumettrePageElementInactif();"><?php echo $intEtat != 43 ? "Soumettre" : "Retirer";?></button>
         <button type="button" onclick="soumettrePageEtat(4,'option2.php');">Annuler</button>
     </footer>
 </section>
@@ -831,16 +865,12 @@ switch ($intEtat) {
         <button type="button" onclick="soumettrePageEtat(5,'option2.php');">Annuler</button>
     </footer>
 </section>
-<script type="text/javascript">
-    document.getElementById('ddlSession').value = '<?php echo $strSession;?>';
-    document.getElementById('ddlCours').value = '<?php echo $strCours;?>';
-    document.getElementById('ddlNomProf').value = '<?php echo $strNomUtilisateur;?>';
-    
+<script type="text/javascript">    
 <?php
         if ($intEtat > 51) {
 ?>
-    document.getElementById('rbStatutUtilli').checked = (<?php echo $byteStatut;?> == 1);
     document.getElementById('tbNomUtil').readOnly = true;
+    document.getElementById('rbStatutUtilli').checked = (<?php echo $byteStatut;?> === 0);
 <?php
         }
         
@@ -907,6 +937,7 @@ require_once "pied-page.php";
             document.getElementById('tbMDP').type = "password";
         }
     }
+    
     
     
 </script>
