@@ -231,7 +231,6 @@
             }
 
             $strCommande .= ")";
-            echo $strCommande;
             $this->requete = $strCommande;
             $this->OK = mysqli_query($this->cBD, $this->requete);
 
